@@ -1,1 +1,6 @@
 This program should display the words of text with the desired speed of words/minute.
+
+This program should traine to look up and down and from left to right;
+- For up and down, use a list of words, passed the list 3 times from up to down and memorise the maximum number of words; Increase the number of columns until 5;
+- For left and right, use a line with words in the begin and other in the end, at least 5 lines, each line should be passed 3 times, memorise the maximum number of words
+- Run the text at the speed of words/minutes
