@@ -1,76 +1,117 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Apr 15 00:03:34 2021
+
+@author: Pi
+"""
+
 import time;
 #########################
-fileToOpen = "list1.txt";
+fileToOpen = "pai_contra_mãe.txt".decode("utf-8");
+#fileToOpen = "list1.txt";
 #########################
 
 class READ():
     
     def __init__(self, file, speed):
         self.file = file;
-        self.speed = 60/speed; #min/word
-        self.countfile = 0
+        self.speed = 60/speed; #seconds/word
+        self.countLine = 0
+        self.countWords = 0
         #open the file
         file = open(fileToOpen,"r");
         
-        self.text = file.readlines();
+        self.line = file.readlines();
         #close
         file.close();
     
     def corrigirText(self):
         #esta funcao serve para corrigir as palavras
         a=[];
-        for each in self.text:
-            a.append(each.replace("\n",""))
-        
-        self.text=a;
+        for each in self.line:
+            a.append(each.replace("\n","").decode("utf-8"))
+        self.line=a;
         
     def count(self):
-        counter = 0;
-        for each in self.text:
-            counter+=1
+        #count line
+        countL = 0;
+        countLM = 0;
+        countW = 0;
+        lm = [];
+        for each in self.line:
+            #count the number of lines
+            countL+=1
+
+            #old count Word is to make the difference between the counts
+            oldCountW=countW;
+            #count the number of words
+            a=[];
+            
+            
+            a.append(each.split(" "))
+            for word in a[0]:
+                countW += 1 if(word <> "") else 0
+
+            #count the number of words per line and make the mean
+            lm.append(countW-oldCountW)
+
+        #make the mean per line
+        sumLM =0
+        for each in lm:
+            sumLM+=each
+
+        countLM = int(sumLM/len(lm))
+            
+            
+        self.countLine = countL;
+        self.countWord = countW;
+        self.countLMean = countLM; #-need to be checked
         
-        self.countfile = counter;
         
     def list1(self):
         #print one list of word
         for i in range(0,1):
-            for each in self.text:
+            for each in self.line:
                 print("\t"+"\t"+"\t"+each)
                 time.sleep(self.speed)
                 
     def list2(self):
         #print two lists of word
-        for i in range(len(self.text)):
+        for i in range(len(self.line)):
             #jump 2
             if (i%2==0):
                 try:
                     #even list
-                    print(str(i)+"\t"+"\t"+self.text[i]+"\t"+"\t"+self.text[i+1])
+                    print(str(i)+"\t"+"\t"+self.line[i]+"\t"+"\t"+self.line[i+1])
                 except:
                     #odd list
-                    print(str(i)+"\t"+"\t"+self.text[i])
+                    print(str(i)+"\t"+"\t"+self.line[i])
                 
                 time.sleep(self.speed)
         
     def ziguezague(self):
-        for i in range(len(self.text)):
+        for i in range(len(self.line)):
             #jump 2
             if (i%2==0):
                 try:
                     #even list
-                    print(str(i)+" "+self.text[i]+"\t"+"\t"+"\t"+"\t"+self.text[i+1])
+                    print(str(i)+" "+self.line[i]+"\t"+"\t"+"\t"+"\t"+self.line[i+1])
                 except:
                     #odd list
-                    print(str(i)+"\t"+"\t"+self.text[i])
+                    print(str(i)+"\t"+"\t"+self.line[i])
                 
                 time.sleep(self.speed)
         
     def book(self):
-        pass;
+        #calculate how many words per time, depends of speed
+        #calculate how many lines per time
+        for each in self.line:
+            print(each)
+            time.sleep(self.speed);
 
 
-#call the main function
-book = READ(fileToOpen, 120);
+#Open a file and close
+book = READ(fileToOpen, 50);
 
 #print(book.file)
 #print(book.speed)
@@ -79,10 +120,13 @@ book.corrigirText()
 #print(book.text)
 book.count()
 
-print(book.countfile)
-print(book.speed)
+print("Number of line: " + str(book.countLine))
+print("Number of word: " + str(book.countWord))
+print("Number of word mean: " + str(book.countLMean))
+print("Select Speed: " + str(book.speed*60) + " words/min")
 print(time.clock())
 #book.list1()
 #book.list2()
 #book.ziguezague()
+book.book()
 print(time.clock())
