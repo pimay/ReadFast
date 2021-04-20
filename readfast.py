@@ -15,6 +15,7 @@ class READ():
     
     def __init__(self, file, speed):
         self.file = file;
+        self.readWord = speed; #number of words 
         self.speed = 60/speed; #seconds/word
         self.countLine = 0
         self.countWords = 0
@@ -103,11 +104,14 @@ class READ():
                 time.sleep(self.speed)
         
     def book(self):
-        #calculate how many words per time, depends of speed
-        #calculate how many lines per time
+        #calculate how many lines per time, using the mean of words in the lines
+        #number of lines necessary
+        nLines = round(self.readWord/self.countLMean)
+        
         for each in self.line:
             print(each)
-            time.sleep(self.speed);
+            #sleep of number os lines in one minute
+            time.sleep(60/nLines);
 
 
 #Open a file and close
